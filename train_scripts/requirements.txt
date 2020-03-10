@@ -1,3 +1,0 @@
-matplotlib
-pyarrow
-s3fs
