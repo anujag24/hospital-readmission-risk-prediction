@@ -1,7 +1,7 @@
 ##!/bin/bash
 
-export KEY_ID="06c7674c-c4d9-49f9-b52a-114f2d68737b"
-export BUKCET_NAME="readmission-data-ehr" 
+export KEY_ID=""
+export BUKCET_NAME="" 
 
 
 YY=$(date +%Y)
