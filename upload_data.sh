@@ -1,7 +1,7 @@
 ##!/bin/bash
 
 export KEY_ID=""
-export BUKCET_NAME="" 
+export BUCKET_NAME="" 
 
 
 YY=$(date +%Y)
