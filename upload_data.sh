@@ -1,5 +1,6 @@
 ##!/bin/bash
 
+## Update the values of below variables with the output from CloudFormation template
 export KEY_ID=""
 export BUCKET_NAME="" 
 
