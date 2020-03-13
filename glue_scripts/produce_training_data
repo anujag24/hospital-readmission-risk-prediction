@@ -319,6 +319,6 @@ transformed_train_rdd = validation.rdd.map(lambda x: (x.label, x.features))
 lines = transformed_train_rdd.map(toCSVLine)
 lines.saveAsTextFile('s3a://' + s3_bucket + '/' + s3_validation_bucket_prefix +'/'+str(year)+'/'+str(month)+'/'+str(day)+'/')
 
-test_df_history.write.format("csv").save('s3a://' + s3_bucket + '/' + s3_test_bucket_prefix +'/'+str(year)+'/'+str(month)+'/'+str(day)+'/', header = 'true')
+test_df_history.write.format("parquet").save('s3a://' + s3_bucket + '/' + s3_test_bucket_prefix +'/'+str(year)+'/'+str(month)+'/'+str(day)+'/', header = 'true')
 
 job.commit()
