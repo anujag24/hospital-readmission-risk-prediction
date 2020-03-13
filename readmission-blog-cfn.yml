@@ -3,7 +3,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: S3 Bucket
 
 Parameters: 
-  nonphibucket: 
+  s3BucketName: 
     Type: String
     Default: 'readmission-data-ehr'
   CFNDatabaseName:
@@ -46,7 +46,7 @@ Resources:
   NonPHIDataBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Ref nonphibucket
+      BucketName: !Join [ "-", [ !Ref s3BucketName, !Ref 'AWS::AccountId'] ] 
       BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
@@ -108,13 +108,7 @@ Resources:
   KeyAlias:
     Type: 'AWS::KMS::Alias'
     Properties:
-      AliasName: 
-        !Join
-          - '-'
-          - - 'alias/'
-            - !Ref nonphibucket
-            - !Ref 'AWS::AccountId'
-            - 'key'
+      AliasName: !Join [ "-", [ 'alias/', !Ref s3BucketName, !Ref 'AWS::AccountId', 'key'] ]
       TargetKeyId: !Ref CMSymmetricKey
   #Create IAM Role assumed by the crawler. For demonstration, this role is given all permissions.
   GlueServiceRole:
@@ -169,7 +163,7 @@ Resources:
     Properties:
       CatalogId: !Ref AWS::AccountId
       DatabaseInput:
-        Name: !Ref CFNDatabaseName
+        Name: !Join [ "-", [ !Ref CFNDatabaseName, !Ref 'AWS::AccountId'] ] 
         Description: "AWS Glue container to hold metadata tables for the crawler"
   # Create a database to contain tables created by the crawler
   CFNDatabaseParquet:
@@ -177,7 +171,7 @@ Resources:
     Properties:
       CatalogId: !Ref AWS::AccountId
       DatabaseInput:
-        Name: !Ref CFNDatabaseNameParquet
+        Name: !Join [ "-", [ !Ref CFNDatabaseNameParquet, !Ref 'AWS::AccountId'] ]  
         Description: "AWS Glue container to hold metadata tables for the crawler"
   GlueSecurityConfig:
     Type: AWS::Glue::SecurityConfiguration
@@ -187,25 +181,25 @@ Resources:
           - 
             KmsKeyArn: !GetAtt CMSymmetricKey.Arn
             S3EncryptionMode: SSE-KMS
-      Name: !Ref CFNCrawlerName
+      Name: !Join [ "-", [ !Ref CFNCrawlerName, !Ref 'AWS::AccountId'] ]  
  #Create a crawler to crawl the data on a public S3 bucket
   CFNCrawler:
     Type: AWS::Glue::Crawler
     Properties:
-      Name: !Ref CFNCrawlerName
+      Name: !Join [ "-", [ !Ref CFNCrawlerName, !Ref 'AWS::AccountId'] ]
       Role: !GetAtt GlueServiceRole.Arn
       #Classifiers: none, use the default classifier
       Description: AWS Glue crawler to crawl flights data
       #Schedule: none, use default run-on-demand
-      CrawlerSecurityConfiguration: !Ref CFNCrawlerName
-      DatabaseName: !Ref CFNDatabaseName
+      CrawlerSecurityConfiguration: !Join [ "-", [ !Ref CFNCrawlerName, !Ref 'AWS::AccountId'] ] 
+      DatabaseName: !Join [ "-", [ !Ref CFNDatabaseName, !Ref 'AWS::AccountId'] ]  
       Targets:
         S3Targets:
           # Public S3 bucket with the flights data
           - Path:
               !Join
                 - '/'
-                - - !Ref nonphibucket
+                - - !Join [ "-", [ !Ref s3BucketName , !Ref 'AWS::AccountId'] ]
                   - 'raw-data'
       ##TablePrefix: !Ref CFNTablePrefixName
       SchemaChangePolicy:
@@ -216,20 +210,20 @@ Resources:
   CFNDWCrawler:
     Type: AWS::Glue::Crawler
     Properties:
-      Name: !Ref CFNDWCrawlerName
+      Name: !Join [ "-", [ !Ref CFNDWCrawlerName, !Ref 'AWS::AccountId'] ] 
       Role: !GetAtt GlueServiceRole.Arn
       #Classifiers: none, use the default classifier
       Description: AWS Glue crawler to crawl flights data
       #Schedule: none, use default run-on-demand
-      CrawlerSecurityConfiguration: !Ref CFNCrawlerName
-      DatabaseName: !Ref CFNDatabaseNameParquet
+      CrawlerSecurityConfiguration: !Join [ "-", [ !Ref CFNCrawlerName, !Ref 'AWS::AccountId'] ] 
+      DatabaseName: !Join [ "-", [ !Ref CFNDatabaseNameParquet, !Ref 'AWS::AccountId'] ]  
       Targets:
         S3Targets:
           # Public S3 bucket with the flights data
           - Path:
               !Join
                 - '/'
-                - - !Ref nonphibucket
+                - - !Join [ "-", [ !Ref s3BucketName , !Ref 'AWS::AccountId'] ]
                   - 'output-dir'
       ##TablePrefix: !Ref CFNTablePrefixName
       SchemaChangePolicy:
@@ -251,10 +245,10 @@ Resources:
       Description: Job created with CloudFormation  
       GlueVersion: 1.0
       #LogUri: String  
-      SecurityConfiguration: !Ref CFNCrawlerName
+      SecurityConfiguration: !Join [ "-", [ !Ref CFNCrawlerName, !Ref 'AWS::AccountId'] ] 
       Command:   
         Name: glueetl
-        ScriptLocation: !Sub "s3://${nonphibucket}/scripts/convert_to_parquet"
+        ScriptLocation: !Sub "s3://${s3BucketName}-${AWS::AccountId}/scripts/convert_to_parquet"
              # for access to directories use proper IAM role with permission to buckets and folders that begin with "aws-glue-"					 
              # script uses temp directory from job definition if required (temp directory not used S3 to S3)
              # script defines target for output as s3://aws-glue-target/sal    			 
@@ -276,16 +270,16 @@ Resources:
       Description: Job created with CloudFormation  
       GlueVersion: 0.9 ## Spark ML container in Sagemaker supports MLeap based on Spark 2.2 so we need to build Spark ML model in Spark 2.2
       #LogUri: String  
-      SecurityConfiguration: !Ref CFNCrawlerName
+      SecurityConfiguration: !Join [ "-", [ !Ref CFNCrawlerName, !Ref 'AWS::AccountId'] ] 
       Command:   
         Name: glueetl
-        ScriptLocation: !Sub "s3://${nonphibucket}/scripts/produce_training_data"
+        ScriptLocation: !Sub "s3://${s3BucketName}-${AWS::AccountId}/scripts/produce_training_data"
              # for access to directories use proper IAM role with permission to buckets and folders that begin with "aws-glue-"					 
              # script uses temp directory from job definition if required (temp directory not used S3 to S3)
              # script defines target for output as s3://aws-glue-target/sal    		
       DefaultArguments: ## We need extra jars files for Mleap serialization
-          "--extra-py-files": !Sub "s3://${nonphibucket}/scripts/python.zip"
-          "--extra-jars": !Sub "s3://${nonphibucket}/scripts/mleap_spark_assembly.jar"
+          "--extra-py-files": !Sub "s3://${s3BucketName}-${AWS::AccountId}/scripts/python.zip"
+          "--extra-jars": !Sub "s3://${s3BucketName}-${AWS::AccountId}/scripts/mleap_spark_assembly.jar"
           "--encryption-type": "sse-s3"
       AllocatedCapacity: 5  
       ExecutionProperty:   
@@ -399,8 +393,11 @@ Outputs:
     Value: !Ref CMSymmetricKey
   S3BucketName:
     Description: S3 Bucket Name
-    Value: !Ref nonphibucket
+    Value: !Join [ "-", [ !Ref s3BucketName, !Ref 'AWS::AccountId'] ]  
   GlueServiceRole:
     Description: Glue Service Role Name
     Value: !Ref GlueServiceRole
+  GlueCrawlerDB:
+    Description: Glue Database with Raw Data
+    Value: !Join [ "-", [ !Ref CFNDatabaseName, !Ref 'AWS::AccountId'] ] 
   
