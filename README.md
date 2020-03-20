@@ -36,9 +36,11 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 #### Instructions
 * Download [readmission-blog-cfn.yml](cfn-templates/readmission-blog-cfn.yml) to your local system
 * Run the CLI command from current directory to create the stack
-`
+
+
+``
 aws cloudformation create-stack --stack-name re-admission-blog --template-body file://readmission-blog-cfn.yml --capabilities CAPABILITY_IAM
-`
+``
 
 The steps which you need to follow for creating and deploying machine learning model from the above generated data are as follows
 
