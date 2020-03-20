@@ -3,7 +3,7 @@
 
 Architects and ML Developers are looking for ways to build **Hospital Re-admission Risk Prediction system** for their use case. You will see the *reference architecture* to quickly develop end-to end machine learning solution for ‘All Cause Hospital Re-admission Prediction System’ using large EHR data sets. The purpose is not to provide machine learning algorithm or data sets for the problem but to show how different AWS services can be used together to build the prediction system. This solution includes data ingestion, data exploration, feature selection, feature engineering, data pre-processing, training ML models, performance optimization of the model, deploying the model in the form of inference pipeline and provide real time prediction for provided input data set. Having access to representative data is very essential for any machine learning problem. Since real healthcare data is highly regulated, we are going to use **[Synthetic Patient Population Simulator](https://academic.oup.com/jamia/article/25/3/230/4098271)** to generate synthetic and realistic EHR data. This tool provides flexibility to generate data sets for varied population sizes, geographic regions, demographics and many other configurable items as mentioned in synthea.properties file. You can refer to the [steps mentioned on this page](https://github.com/synthetichealth/synthea/blob/master/README.md) for the latest instructions to download, install and generate the data set. 
 
-In a nutshell, you need to:- 
+In a nutshell, you need to-
 *	Install Java and clone the Git repo 
 *	Verify the installation 
 *	Update **src/main/resources/synthea.properties** file to generate files in csv format. Ensure that the property exporter.csv.export is set to true (exporter.csv.export = true)
@@ -30,14 +30,14 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 #### Pre-requisites
 - [Create AWS Account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
 - [Create AWS IAM User](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/setting_up_create_iam_user.html)
-* [Install AWS CLI on local system](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
-* [Setup AWS user credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html#cli-quick-configuration) to create required AWS resources
+- [Install AWS CLI on local system](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
+- [Setup AWS user credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html#cli-quick-configuration) to create required AWS resources
 
 #### Instructions
-* Download ![re-admission-blog-cfn.yml](cfn-templates/re-admission-blog-cfn.yml) to your local system
+* Download ![readmission-blog-cfn.yml](cfn-templates/readmission-blog-cfn.yml) to your local system
 * Run the CLI command from current directory to create the stack
 `
-aws cloudformation create-stack --stack-name re-admission-blog --template-body file://re-admission-blog-cfn.yml --capabilities CAPABILITY_IAM
+aws cloudformation create-stack --stack-name re-admission-blog --template-body file://readmission-blog-cfn.yml --capabilities CAPABILITY_IAM
 `
 
 The steps which you need to follow for creating and deploying machine learning model from the above generated data are as follows
