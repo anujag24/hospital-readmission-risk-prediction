@@ -37,19 +37,18 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 * Download [readmission-blog-cfn.yml](cfn-templates/readmission-blog-cfn.yml) to your local system
 * Run the CLI command from current directory to create the stack
 
-
 ``
 aws cloudformation create-stack --stack-name re-admission-blog --template-body file://readmission-blog-cfn.yml --capabilities CAPABILITY_IAM
 ``
 
-The steps which you need to follow for creating and deploying machine learning model from the above generated data are as follows
+*The steps which you need to follow for creating and deploying machine learning model from the above generated data are as follows*
 
 * Understanding of your data
 * Storing and converting your data into Parquet for optimized performance and storage
 * Feature selection and feature engineering using Apache Spark
-* Data pre-processing - StringIndexer and OneHotEncoding to convert categorical variables into required training data
-* Train Spark ML model for data pre-processing and serialize using MLeap library to be used during Inference Pipeline
-* Convert the data set into XGBoost supported format i.e. CSV from Spark Data Frame
+* Data pre-processing - [StringIndexer](https://spark.apache.org/docs/latest/ml-features#stringindexer) and [OneHotEncoding](https://spark.apache.org/docs/latest/ml-features#onehotencoder-deprecated-since-230) to convert categorical variables into required training data
+* Train Spark ML model for data pre-processing and serialize using MLeap library to be used during [Inference Pipeline](https://docs.aws.amazon.com/sagemaker/latest/dg/inference-pipelines.html)
+* Convert the data set into [XGBoost](https://docs.aws.amazon.com/sagemaker/latest/dg/xgboost.html) supported format i.e. CSV from Spark Data Frame
 * Split the data set into training and validation for model training and validation
 * Train XGBoost Model using SageMaker XGBoost algorithm and validate model prediction using validation data set
 * Tune the trained model using Hyperparameter tuning jobs
@@ -57,6 +56,7 @@ The steps which you need to follow for creating and deploying machine learning m
 * Create the end point configuration to deploy the inference pipeline
 * Deploy the inference pipeline for real time prediction
 * Invoke real time prediction API for a request.
+
 
 
 
