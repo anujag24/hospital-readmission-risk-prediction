@@ -25,7 +25,36 @@ In this reference architecture-
 *	[Amazon SageMaker](https://aws.amazon.com/sagemaker/) to provision Jupyter notebook which will be used to train the required machine learning model, model hyper parameter tuning, create SageMaker model artifacts and deploy real time prediction inference pipeline. 
 *	[AWS Key Management Service (KMS)](https://aws.amazon.com/kms/) to protect the data at rest and control data access by different AWS services.
 
+Since you will need HIPPA compliance for Healthcare data, the architecture in based on [AWS HIPPA eligible services](https://aws.amazon.com/compliance/hipaa-eligible-services-reference/). You can create all the resources required for this solution using CloudFormation template. 
 
+#### Pre-requisites
+- [Create AWS Account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
+- [Create AWS IAM User](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/setting_up_create_iam_user.html)
+* [Install AWS CLI on local system](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
+* [Setup AWS user credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html#cli-quick-configuration) to create required AWS resources
+
+#### Instructions
+* Download ![re-admission-blog-cfn.yml](cfn-template/re-admission-blog-cfn.yml) to your local system
+* Run the CLI command from current directory to create the stack
+`
+aws cloudformation create-stack --stack-name re-admission-blog --template-body file://re-admission-blog-cfn.yml --capabilities CAPABILITY_IAM
+`
+
+The steps which you need to follow for creating and deploying machine learning model from the above generated data are as follows
+
+* Understanding of your data
+* Storing and converting your data into Parquet for optimized performance and storage
+* Feature selection and feature engineering using Apache Spark
+* Data pre-processing - StringIndexer and OneHotEncoding to convert categorical variables into required training data
+* Train Spark ML model for data pre-processing and serialize using MLeap library to be used during Inference Pipeline
+* Convert the data set into XGBoost supported format i.e. CSV from Spark Data Frame
+* Split the data set into training and validation for model training and validation
+* Train XGBoost Model using SageMaker XGBoost algorithm and validate model prediction using validation data set
+* Tune the trained model using Hyperparameter tuning jobs
+* Get the best tuned model and create inference pipeline which includes Spark ML model and XGBoost Model
+* Create the end point configuration to deploy the inference pipeline
+* Deploy the inference pipeline for real time prediction
+* Invoke real time prediction API for a request.
 
 
 
