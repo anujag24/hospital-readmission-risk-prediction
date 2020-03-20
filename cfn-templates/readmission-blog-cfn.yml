@@ -1,6 +1,6 @@
 ---
 AWSTemplateFormatVersion: '2010-09-09'
-Description: S3 Bucket
+Description: CloudFormation Template for Readmission Stack
 
 Parameters: 
   s3BucketName: 
