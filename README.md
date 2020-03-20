@@ -33,7 +33,7 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 
 
 #### Instructions
-Click on below icon to launch the stack in us-east-1
+Click on below icon to launch the stack in **us-east-1**
 
 [![Launch Stack](images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=readmission-prediction&templateURL=https://hospital-readmission-blog.s3-us-west-2.amazonaws.com/readmission-blog-cfn.yml)
 
