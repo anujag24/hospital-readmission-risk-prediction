@@ -41,6 +41,8 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 aws cloudformation create-stack --stack-name re-admission-blog --template-body file://readmission-blog-cfn.yml --capabilities CAPABILITY_IAM
 ```
 
+[![Launch Stack](images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=readmission-prediction&templateURL=https://hospital-readmission-blog.s3-us-west-2.amazonaws.com/readmission-blog-cfn.yml)
+
 *The steps which you need to follow for creating and deploying machine learning model from the above generated data are as follows*
 
 * Understanding of your data
