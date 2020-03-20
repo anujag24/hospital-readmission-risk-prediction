@@ -30,16 +30,10 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 #### Pre-requisites
 - [Create AWS Account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
 - [Create AWS IAM User](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/setting_up_create_iam_user.html)
-- [Install AWS CLI on local system](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
-- [Setup AWS user credentials](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html#cli-quick-configuration) to create required AWS resources
+
 
 #### Instructions
-* Download [readmission-blog-cfn.yml](cfn-templates/readmission-blog-cfn.yml) to your local system
-* Run the CLI command from current directory to create the stack
-
-```
-aws cloudformation create-stack --stack-name re-admission-blog --template-body file://readmission-blog-cfn.yml --capabilities CAPABILITY_IAM
-```
+Click on below icon to launch the stack in us-east-1
 
 [![Launch Stack](images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=readmission-prediction&templateURL=https://hospital-readmission-blog.s3-us-west-2.amazonaws.com/readmission-blog-cfn.yml)
 
