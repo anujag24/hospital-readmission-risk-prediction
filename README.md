@@ -35,7 +35,7 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 #### Instructions
 Click on below icon to launch the stack in **us-east-1**
 
-[![Launch Stack](images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=readmission-prediction&templateURL=https://hospital-readmission-blog.s3-us-west-2.amazonaws.com/readmission-blog-cfn.yml)
+[![Launch Stack](images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=readmission-prediction-stack&templateURL=https://hospital-readmission-blog.s3-us-west-2.amazonaws.com/readmission-blog-cfn.yml)
 
 - *After the stack is successfully created*. You can use the [upload data script](upload_data.sh) to upload the generated data to S3 bucket. You have to first update the **KMS KeyId** and **S3 Bucket name** in the script from the output for CloudFormation template.
 
