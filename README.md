@@ -38,13 +38,13 @@ Click on below icon to launch the stack in **us-east-1**
 
 - *After the stack is successfully created*. Get ACCESS_KEY and SECRET_KEY for **s3upload** user. [Click on this link to open the console](https://console.aws.amazon.com/iam/home?#/users/s3upload). Follow the instructions [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) to create ACCESS_KEY and SECRET_KEY for the user. Once created, download the credentials. Screenshots below can also guide you through the process of creating credentails.
 
-[Create Credentials](images/1.png)
+![Create Credentials](images/1.png)
 
-[Create Credentials](images/2.png)
+![Create Credentials](images/2.png)
 
 - Download [upload data script](upload_data.sh) to your local system that can be used to upload the generated data to S3 bucket. You need to update the script as - **ACCESS_KEY** and **SECRET_KEY** from the downloaded credentials file  and **KMS KeyId** and **S3 Bucket name** from CloudFormation output. 
 
-[Download Credentials](images/2.png)
+![Download Credentials](images/2.png)
 
 - Run the upload data script `./upload_data.sh`
 
