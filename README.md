@@ -46,6 +46,9 @@ Click on below icon to launch CloudFormation Stack in **us-east-1**
 
 ![Download Credentials](images/3.png)
 
+![Get Output](images/4.png)
+
+
 - Run the upload data script `./upload_data.sh`
 
 - You can login to [AWS console](https://console.aws.amazon.com/glue/home?region=us-east-1#catalog:tab=crawlers) to run the crawler, look for the crawler named **ehr-crawler-re-admission** (default name provided in CloudFormation template) and run the crawler. Once the crawler is successfully run, go to databases in AWS Glue console and look for the Glue Database named **ehr-db-re-admission**(default name provided in CloudFormation template). You can click on the link ‘Tables in ehr-db-re-admission’ to check the available tables and associated properties. 
