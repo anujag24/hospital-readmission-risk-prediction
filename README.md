@@ -29,15 +29,15 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 
 #### Pre-requisites
 - [Create AWS Account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
-- [Create AWS IAM User](https://docs.aws.amazon.com/directoryservice/latest/admin-guide/setting_up_create_iam_user.html)
-
 
 #### Instructions
 Click on below icon to launch the stack in **us-east-1**
 
 [![Launch Stack](images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=readmission-prediction-stack&templateURL=https://hospital-readmission-blog.s3-us-west-2.amazonaws.com/readmission-blog-cfn.yml)
 
-- *After the stack is successfully created*. You can use the [upload data script](upload_data.sh) to upload the generated data to S3 bucket. You have to first update the **KMS KeyId** and **S3 Bucket name** in the script from the output for CloudFormation template.
+- *After the stack is successfully created*. Get ACCESS_KEY and SECRET_KEY for `s3upload` user. [Click on this link to open the console](https://console.aws.amazon.com/iam/home?#/users/s3upload)
+
+- You can use the [upload data script](upload_data.sh) to upload the generated data to S3 bucket. You have to first update the **KMS KeyId** and **S3 Bucket name** in the script from the output for CloudFormation template.
 
 - You can login to [AWS console](https://console.aws.amazon.com/glue/home?region=us-east-1#catalog:tab=crawlers) to run the crawler, look for the crawler named **ehr-crawler-re-admission** (default name provided in CloudFormation template) and run the crawler. Once the crawler is successfully run, go to databases in AWS Glue console and look for the Glue Database named **ehr-db-re-admission**(default name provided in CloudFormation template). You can click on the link ‘Tables in ehr-db-re-admission’ to check the available tables and associated properties. 
 
