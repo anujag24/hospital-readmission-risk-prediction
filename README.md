@@ -32,7 +32,7 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 - [Install AWS CLI on your system](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 
 #### Instructions
-Click on below icon to launch CloudFormation stack in **us-east-1**
+Click on below icon to launch CloudFormation Stack in **us-east-1**
 
 [![Launch Stack](images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=readmission-prediction-stack&templateURL=https://hospital-readmission-blog.s3-us-west-2.amazonaws.com/readmission-blog-cfn.yml)
 
