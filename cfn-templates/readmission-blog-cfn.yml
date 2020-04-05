@@ -99,8 +99,7 @@ Resources:
           - Effect: Allow
             Action:
             - "s3:PutObject"
-            Resource:
-            - !GetAtt MyBucket.Arn
+            Resource: !Sub '${MyBucket.Arn}/*'
 
   CMSymmetricKey:
     Type: AWS::KMS::Key
