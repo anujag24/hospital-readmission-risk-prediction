@@ -49,9 +49,9 @@ Click on below icon to launch CloudFormation Stack in **us-east-1**
 
 - Run the upload data script `./upload_data.sh`
 
-- You can login to [AWS console](https://console.aws.amazon.com/glue/home?region=us-east-1#catalog:tab=crawlers) to run the crawler, look for the crawler named **ehr-crawler-re-admission** (default name provided in CloudFormation template) and run the crawler. Once the crawler is successfully run, go to databases in AWS Glue console and look for the Glue Database named **ehr-db-re-admission**(default name provided in CloudFormation template). You can click on the link ‘Tables in ehr-db-re-admission’ to check the available tables and associated properties. 
+- You can login to [AWS console](https://console.aws.amazon.com/glue/home?region=us-east-1#catalog:tab=crawlers) to run the crawler, look for the crawler named **ehr-crawler-readmission** (default name provided in CloudFormation template) and run the crawler. Once the crawler is successfully run, go to databases in AWS Glue console and look for the Glue Database named **ehr-db-readmission**(default name provided in CloudFormation template). You can click on the link ‘Tables in ehr-db-re-admission’ to check the available tables and associated properties. 
 
-- You can now login to [AWS SageMaker Console](https://console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances) and click on *Open Jupyter* link to open the Jupyter Notebook Instance provided as part of this blog. Further instructions on what needs to be done are mentioned in the Notebooks. Open the notebook **re-admission-risk-inference-pipeline-evaluation** to follow the instructions. 
+- You can now login to [AWS SageMaker Console](https://console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances) and click on *Open Jupyter* link to open the Jupyter Notebook Instance provided as part of this blog. Further instructions on what needs to be done are mentioned in the Notebooks. Open the notebook **readmission-risk-inference-pipeline-evaluation** to follow the instructions. 
 
 
 *The steps which you need to follow for creating and deploying machine learning model from the above generated data are as follows*
