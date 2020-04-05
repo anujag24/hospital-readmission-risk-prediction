@@ -25,14 +25,14 @@ In this reference architecture-
 *	[Amazon SageMaker](https://aws.amazon.com/sagemaker/) to provision Jupyter notebook which will be used to train the required machine learning model, model hyper parameter tuning, create SageMaker model artifacts and deploy real time prediction inference pipeline. 
 *	[AWS Key Management Service (KMS)](https://aws.amazon.com/kms/) to protect the data at rest and control data access by different AWS services.
 
-Since you will need HIPPA compliance for Healthcare data, the architecture in based on [HIPPA eligible services](https://aws.amazon.com/compliance/hipaa-eligible-services-reference/). You can create all the resources required for this solution using CloudFormation template. 
+Since you will need HIPPA compliance for Healthcare data, the architecture in based on [HIPPA eligible services](https://aws.amazon.com/compliance/hipaa-eligible-services-reference/). 
 
 #### Pre-requisites
 - [Create AWS Account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
 - [Install AWS CLI on your system](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 
 #### Instructions
-Click on below icon to launch the stack in **us-east-1**
+Click on below icon to launch CloudFormation stack in **us-east-1**
 
 [![Launch Stack](images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=readmission-prediction-stack&templateURL=https://hospital-readmission-blog.s3-us-west-2.amazonaws.com/readmission-blog-cfn.yml)
 
