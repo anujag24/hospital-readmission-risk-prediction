@@ -3,7 +3,7 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: CloudFormation template to create AWS resources for readmission prediction solution
 
 Parameters: 
-  nonphibucketprefix: 
+  bucketprefix: 
     Type: String
     Default: 'readmission-data-ehr'
     Description: S3 Bucket prefix
@@ -51,17 +51,19 @@ Parameters:
     Type: String
     Default: 'https://github.com/anujag24/hospital-readmission-risk-prediction'
     Description: Link to GitHub repository which contains the sample code
-
-
+  S3User: 
+    Type: String
+    Default: s3upload
+    Description: IAM User Name that will have access to upload objects to S3 Bucket
 
 Resources:
-  NonPHIDataBucket:
+  MyBucket:
     Type: AWS::S3::Bucket
     Properties:
       BucketName:
         !Join
           - '-'
-          - - !Ref nonphibucketprefix
+          - - !Ref bucketprefix
             - !Ref 'AWS::AccountId'
       BucketEncryption:
         ServerSideEncryptionConfiguration:
@@ -69,21 +71,37 @@ Resources:
               SSEAlgorithm: AES256
     DeletionPolicy: Delete
 
-  NonPHIDataBucketPolicy: 
+  BucketPolicy: 
     Type: AWS::S3::BucketPolicy
     Properties: 
-      Bucket: !Ref NonPHIDataBucket
+      Bucket: !Ref MyBucket
       PolicyDocument: 
         Version: '2012-10-17'
         Id: PutObjPolicy
-        Statement:
+        Statement: ## Enforce all uploaded objects are encrypted on server side using KMS Key 
         - Principal: "*"
           Effect: Deny
           Action: s3:PutObject
-          Resource: !Sub '${NonPHIDataBucket.Arn}/*'
+          Resource: !Sub '${MyBucket.Arn}/*'
           Condition:
             StringNotEquals:
               's3:x-amz-server-side-encryption': 'aws:kms'
+  MyUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Ref S3User
+      Path: "/"
+      Policies:
+      - PolicyName: giveaccess-to-s3-uploadobject
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - "s3:PutObject"
+            Resource:
+            - !GetAtt MyBucket.Arn
+
   CMSymmetricKey:
     Type: AWS::KMS::Key
     Properties: 
@@ -95,7 +113,7 @@ Resources:
         Version: 2012-10-17
         Id: encryption-key
         Statement:
-          - Sid: Enable IAM User Permissions ## Root user in this account will have all permissions for this KMS key
+          - Sid: Enable Root User Permissions ## Root user in this account will have all permissions for this KMS key
             Effect: Allow
             Principal:
               AWS: !Join 
@@ -105,6 +123,17 @@ Resources:
                   - ':root'
             Action: 'kms:*'
             Resource: '*'
+          - Sid: Enable IAM User Permissions ## Permissions for S3 Upload IAM User to access KMS key for uploading objects
+            Effect: Allow
+            Principal:
+              AWS: !GetAtt MyUser.Arn
+            Action: 
+              - "kms:Decrypt"
+              - "kms:Encrypt"
+              - "kms:GenerateDataKey"
+              - "kms:GenerateDataKeyWithoutPlaintext"
+              - "kms:DescribeKey"
+            Resource: '*'
   KeyAlias:
     Type: 'AWS::KMS::Alias'
     Properties:
@@ -112,7 +141,7 @@ Resources:
         !Join
           - '-'
           - - 'alias/'
-            - !Ref nonphibucketprefix
+            - !Ref bucketprefix
             - !Ref 'AWS::AccountId'
             - 'key'
       TargetKeyId: !Ref CMSymmetricKey
@@ -148,7 +177,7 @@ Resources:
                   - "s3:GetBucketAcl"
                   - "s3:DeleteObject"
                   - "s3:GetBucketLocation"
-                Resource: !Sub ${NonPHIDataBucket.Arn}/*
+                Resource: !Sub ${MyBucket.Arn}/*
         -
           PolicyName: "kms-key-access"
           PolicyDocument:
@@ -207,7 +236,7 @@ Resources:
                 - '/'
                 - - !Join 
                       - '-'
-                      - - !Ref nonphibucketprefix
+                      - - !Ref bucketprefix
                         - !Ref 'AWS::AccountId'
                   - 'raw-data'
       ##TablePrefix: !Ref CFNTablePrefixName
@@ -234,7 +263,7 @@ Resources:
                 - '/'
                 - - !Join
                       - '-'
-                      - - !Ref nonphibucketprefix
+                      - - !Ref bucketprefix
                         - !Ref 'AWS::AccountId'
                   - 'output-dir'
       ##TablePrefix: !Ref CFNTablePrefixName
@@ -260,7 +289,7 @@ Resources:
       SecurityConfiguration: !Ref CFNCrawlerName
       Command:   
         Name: glueetl
-        ScriptLocation: !Sub "s3://${nonphibucketprefix}-${AWS::AccountId}/scripts/convert_to_parquet"
+        ScriptLocation: !Sub "s3://${bucketprefix}-${AWS::AccountId}/scripts/convert_to_parquet"
              # for access to directories use proper IAM role with permission to buckets and folders that begin with "aws-glue-"					 
              # script uses temp directory from job definition if required (temp directory not used S3 to S3)
              # script defines target for output as s3://aws-glue-target/sal    			 
@@ -285,13 +314,13 @@ Resources:
       SecurityConfiguration: !Ref CFNCrawlerName
       Command:   
         Name: glueetl
-        ScriptLocation: !Sub "s3://${nonphibucketprefix}-${AWS::AccountId}/scripts/produce_training_data"
+        ScriptLocation: !Sub "s3://${bucketprefix}-${AWS::AccountId}/scripts/produce_training_data"
              # for access to directories use proper IAM role with permission to buckets and folders that begin with "aws-glue-"					 
              # script uses temp directory from job definition if required (temp directory not used S3 to S3)
              # script defines target for output as s3://aws-glue-target/sal    		
       DefaultArguments: ## We need extra jars files for Mleap serialization
-          "--extra-py-files": !Sub "s3://${nonphibucketprefix}-${AWS::AccountId}/scripts/python.zip"
-          "--extra-jars": !Sub "s3://${nonphibucketprefix}-${AWS::AccountId}/scripts/mleap_spark_assembly.jar"
+          "--extra-py-files": !Sub "s3://${bucketprefix}-${AWS::AccountId}/scripts/python.zip"
+          "--extra-jars": !Sub "s3://${bucketprefix}-${AWS::AccountId}/scripts/mleap_spark_assembly.jar"
           "--encryption-type": "sse-s3"
       AllocatedCapacity: 5  
       ExecutionProperty:   
@@ -328,7 +357,7 @@ Resources:
                   - "s3:GetBucketAcl"
                   - "s3:DeleteObject"
                   - "s3:GetBucketLocation"
-                Resource: !Sub ${NonPHIDataBucket.Arn}/*
+                Resource: !Sub ${MyBucket.Arn}/*
         -
           PolicyName: "kms-key-access"
           PolicyDocument:
@@ -405,8 +434,11 @@ Outputs:
     Value: !Ref CMSymmetricKey
   S3BucketName:
     Description: S3 Bucket Name
-    Value: !Ref NonPHIDataBucket
+    Value: !Ref MyBucket
   GlueServiceRole:
     Description: Glue Service Role Name
     Value: !Ref GlueServiceRole
+  S3UploadUser:
+    Description: IAM User Name to upload S3 Objects
+    Value: !Ref MyUser
   
