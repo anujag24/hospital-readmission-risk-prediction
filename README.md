@@ -41,11 +41,9 @@ Click on below icon to launch CloudFormation Stack in **us-east-1**
 
 ![Create Credentials](images/2.png)
 
-- Download [upload data script](upload_data.sh) to your local system that can be used to upload the generated data to S3 bucket. You need to update the script as - **ACCESS_KEY** and **SECRET_KEY** from the downloaded credentials file  and **KMS KeyId** and **S3 Bucket name** from CloudFormation output. 
-
 ![Download Credentials](images/3.png)
 
-![Get Output](images/4.png)
+- Download [upload data script](upload_data.sh) to your local system that can be used to upload the generated data to S3 bucket. You need to update the script as - **ACCESS_KEY** and **SECRET_KEY** from the downloaded credentials file  and **KMS KeyId** and **S3 Bucket name** from CloudFormation output. 
 
 ![Update Script](images/5.png)
 
