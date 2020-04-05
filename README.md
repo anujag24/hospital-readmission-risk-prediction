@@ -35,7 +35,7 @@ Click on below icon to launch CloudFormation Stack in **us-east-1**
 
 [![Launch Stack](images/cloudformation-launch-stack.png)](https://console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/new?stackName=readmission-prediction-stack&templateURL=https://hospital-readmission-blog.s3-us-west-2.amazonaws.com/readmission-blog-cfn.yml)
 
-- *After the stack is successfully created*. Get ACCESS_KEY and SECRET_KEY for the created IAM user **s3upload**. [Click on this link to open the console](https://console.aws.amazon.com/iam/home?#/users/s3upload). Follow the instructions [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) to create ACCESS_KEY and SECRET_KEY for the user. Once created, download the credentials. Screenshots below can also guide you through the process of creating credentails.
+- *After the stack is successfully created*. Get ACCESS_KEY and SECRET_KEY for the created IAM user **s3upload**. [Click on this link to open the console](https://console.aws.amazon.com/iam/home?#/users/s3upload). Follow the instructions [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) to create ACCESS_KEY and SECRET_KEY for the user. Once created, download the credentials. Screenshots below can also guide you through the process of creating credentails. This user is required to upload the raw data to required S3 bucket.
 
 ![Create Credentials](images/1.png)
 
@@ -49,7 +49,17 @@ Click on below icon to launch CloudFormation Stack in **us-east-1**
 
 - Run the upload data script `./upload_data.sh`
 
-- You can login to [AWS console](https://console.aws.amazon.com/glue/home?region=us-east-1#catalog:tab=crawlers) to run the crawler, look for the crawler named **ehr-crawler-readmission** (default name provided in CloudFormation template) and run the crawler. Once the crawler is successfully run, go to databases in AWS Glue console and look for the Glue Database named **ehr-db-readmission**(default name provided in CloudFormation template). You can click on the link ‘Tables in ehr-db-re-admission’ to check the available tables and associated properties. 
+- You can login to [AWS console](https://console.aws.amazon.com/glue/home?region=us-east-1#catalog:tab=crawlers) to run the crawler, look for the crawler named **ehr-crawler-readmission** (default name provided in CloudFormation template) and run the crawler. Once the crawler is successfully run i.e. the attribute **Tables Added** will be updated to the number of tables discovered by the crawler.
+
+![Run Crawler](images/6.png)
+
+![Run Crawler](images/7.png)
+
+- Click on Databases in AWS Glue console and look for database named **ehr-db-readmission**(default name provided in CloudFormation template). You can click on the link ‘Tables in ehr-db-re-admission’ to check the available tables and associated properties. 
+
+![Glue Database](images/8.png)
+
+![Glue Database](images/9.png)
 
 - You can now login to [AWS SageMaker Console](https://console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances) and click on *Open Jupyter* link to open the Jupyter Notebook Instance provided as part of this blog. Further instructions on what needs to be done are mentioned in the Notebooks. Open the notebook **readmission-risk-inference-pipeline-evaluation** to follow the instructions. 
 
