@@ -29,6 +29,7 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 
 #### Pre-requisites
 - [Create AWS Account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
+- [Install AWS CLI on your system](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
 
 #### Instructions
 Click on below icon to launch the stack in **us-east-1**
