@@ -38,7 +38,9 @@ Click on below icon to launch the stack in **us-east-1**
 
 - *After the stack is successfully created*. Get ACCESS_KEY and SECRET_KEY for **s3upload** user. [Click on this link to open the console](https://console.aws.amazon.com/iam/home?#/users/s3upload). Follow the instructions [here](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_access-keys.html#Using_CreateAccessKey) to create ACCESS_KEY and SECRET_KEY for the user. Once created, download the credentials. 
 
-- You can use the [upload data script](upload_data.sh) to upload the generated data to S3 bucket. You need to update the script as - **ACCESS_KEY** and **SECRET_KEY** from the downloaded credentials file  and **KMS KeyId** and **S3 Bucket name** from CloudFormation output.
+- Download [upload data script](upload_data.sh) to your local system that can be used to upload the generated data to S3 bucket. You need to update the script as - **ACCESS_KEY** and **SECRET_KEY** from the downloaded credentials file  and **KMS KeyId** and **S3 Bucket name** from CloudFormation output. 
+
+- Run the upload data script `./upload_data.sh`
 
 - You can login to [AWS console](https://console.aws.amazon.com/glue/home?region=us-east-1#catalog:tab=crawlers) to run the crawler, look for the crawler named **ehr-crawler-re-admission** (default name provided in CloudFormation template) and run the crawler. Once the crawler is successfully run, go to databases in AWS Glue console and look for the Glue Database named **ehr-db-re-admission**(default name provided in CloudFormation template). You can click on the link ‘Tables in ehr-db-re-admission’ to check the available tables and associated properties. 
 
