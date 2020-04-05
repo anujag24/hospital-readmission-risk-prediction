@@ -61,8 +61,13 @@ Click on below icon to launch CloudFormation Stack in **us-east-1**
 
 ![Glue Database](images/9.png)
 
-- You can now login to [AWS SageMaker Console](https://console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances) and click on *Open Jupyter* link to open the Jupyter Notebook Instance provided as part of this blog. Further instructions on what needs to be done are mentioned in the Notebooks. Open the notebook **readmission-risk-inference-pipeline-evaluation** to follow the instructions. 
+- You can now login to [AWS SageMaker Console](https://console.aws.amazon.com/sagemaker/home?region=us-east-1#/notebook-instances) and click on `Open Jupyter` link to open the Jupyter Notebook Instance provided as part of this blog. Further instructions on what needs to be done are mentioned in the Notebooks. Open the notebook **readmission-risk-inference-pipeline-evaluation** to follow the instructions. 
 
+![Notebook](images/10.png)
+
+![Notebook](images/11.png)
+
+![Notebook](images/12.png)
 
 *The steps which you need to follow for creating and deploying machine learning model from the above generated data are as follows*
 
