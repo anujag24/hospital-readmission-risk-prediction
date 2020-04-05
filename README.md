@@ -1,5 +1,4 @@
-# All Cause Patient Re-admission Risk Prediction System
-## AWS Data Lake and Machine Learning
+# Predicting all cause Patient Readmission Risk using AWS Data Lake and Machine Learning
 
 Architects and ML Developers are looking for ways to build **Hospital Re-admission Risk Prediction system** for their use case. You will see the *reference architecture* to quickly develop end-to end machine learning solution for ‘All Cause Hospital Re-admission Prediction System’ using large EHR data sets. The purpose is not to provide machine learning algorithm or data sets for the problem but to show how different AWS services can be used together to build the prediction system. This solution includes data ingestion, data exploration, feature selection, feature engineering, data pre-processing, training ML models, performance optimization of the model, deploying the model in the form of inference pipeline and provide real time prediction for provided input data set. Having access to representative data is very essential for any machine learning problem. Since real healthcare data is highly regulated, we are going to use **[Synthetic Patient Population Simulator](https://academic.oup.com/jamia/article/25/3/230/4098271)** to generate synthetic and realistic EHR data. This tool provides flexibility to generate data sets for varied population sizes, geographic regions, demographics and many other configurable items as mentioned in synthea.properties file. You can refer to the [steps mentioned on this page](https://github.com/synthetichealth/synthea/blob/master/README.md) for the latest instructions to download, install and generate the data set. 
 
@@ -48,6 +47,7 @@ Click on below icon to launch CloudFormation Stack in **us-east-1**
 
 ![Get Output](images/4.png)
 
+![Update Script](images/5.png)
 
 - Run the upload data script `./upload_data.sh`
 
