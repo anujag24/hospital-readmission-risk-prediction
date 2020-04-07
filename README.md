@@ -18,6 +18,7 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 #### Pre-requisites
 - [Create AWS Account](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/)
 - [Install AWS CLI on your local system](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html)
+- Familiarity with Apache Spark and Jupyter Notebooks
 
 ### Synthetic Data Generation 
 In a nutshell, you need to-
