@@ -169,9 +169,6 @@ print('sorted data frame rows as needed')
 df_history.show(truncate=100)
 
 ##Calculating readmission hours from the data
-#df_history['readmission_hrs'] = np.where((df_history['patient_id'].shift(axis=0,periods=-1) == df_history['patient_id']),(df_history['encounters_start'].shift(axis=0,periods=-1) - df_history['encounters_stop']).astype('timedelta64[h]'),0)
-## Shift the values of READMISSION by 1 row down
-#df_history['readmission_hrs'] = df_history.apply(lambda x: df_history['readmission_hrs'].shift(1))
 df_history = df_history.withColumn("readmission_days", datediff(df_history.encounters_start, lag(df_history.encounters_stop, 1)
     .over(Window.partitionBy("patient_id")
     .orderBy('patient_id', 'encounters_start', 'encounters_stop'))))
