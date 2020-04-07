@@ -48,7 +48,7 @@ This will generate the data set in **“output/csv”** directory of the cloned 
 
 ![Update Script](images/5.png)
 
-- Run the upload data script `./upload_data.sh` after updating the values.
+- Run the upload data script `./upload_data.sh` after updating the values. This script will upload all the generates CSV files to S3 bucket.
 
 - You can now login to [AWS console](https://console.aws.amazon.com/glue/home?region=us-east-1#catalog:tab=crawlers) to run AWS Glue crawler, look for the crawler named **ehr-crawler-readmission** (default name provided in CloudFormation) and run the crawler. Once the crawler is successfully run i.e. the attribute **Tables Added** will be updated to the number of tables discovered by the crawler. Below screenshots can guide you through the process.
 
