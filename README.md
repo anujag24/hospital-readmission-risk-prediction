@@ -56,7 +56,7 @@ This will generate the data set in **“output/csv”** directory of the cloned 
 
 ![Run Crawler](images/7.png)
 
-- Click on Databases in AWS Glue console and look for database named **ehr-db-readmission**(default name provided in CloudFormation). You can click on the link `Tables in ehr-db-readmission` to check the available tables and associated properties. 
+- Click on Databases in AWS Glue console and look for database named **ehr-db-readmission**(default name provided in CloudFormation) and click on it. You can then click on the link `Tables in ehr-db-readmission` to check the available tables and associated properties. 
 
 ![Glue Database](images/8.png)
 
