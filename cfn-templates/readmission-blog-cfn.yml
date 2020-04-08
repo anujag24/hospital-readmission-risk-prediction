@@ -238,7 +238,6 @@ Resources:
                       - - !Ref bucketprefix
                         - !Ref 'AWS::AccountId'
                   - 'raw-data'
-      ##TablePrefix: !Ref CFNTablePrefixName
       SchemaChangePolicy:
         UpdateBehavior: "UPDATE_IN_DATABASE"
         DeleteBehavior: "LOG"
