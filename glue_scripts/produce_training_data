@@ -181,9 +181,9 @@ print ('calculated readmission value')
 df_history.show(truncate=100) 
 
 ## Checking for over fitting vs under fitting training data
-print('Percent of positive samples: ', (((df_history.filter("readmission == 1")).count()) / (df_history.count())*100))
-print('Percent of negative samples: ', (((df_history.filter("readmission == 0")).count()) / (df_history.count()))*100)
-print('Percent of total samples: ', df_history.count())
+print('Number of positive samples: ', df_history.filter("readmission == '1'").count())
+print('Number of negative samples: ', df_history.filter("readmission == '0'").count())
+print('Count of total samples: ', df_history.count())
 
 ##Convert Birthdate into Age
 ## Convert BIRTH DATE INTO AGE factor
@@ -195,8 +195,13 @@ df_history.show(truncate=100)
 drop_column_list = ['current_date','admission_duration','medications_totalcost','medications_base_cost',
                                           'patient_birthdate','encounters_id','patient_id','organizations_id',
                                          'encounters_start','encounters_stop',
-                                            'encounters_payer','readmission_days']
+                                            'encounters_payer','readmission_days','providers_speciality']
 df_history = df_history.select([column for column in df_history.columns if column not in drop_column_list])
+
+
+print ('Null values percentage in each column after imputation and dropping columns:')
+print (null_perc(df_history))
+
 
 ## Schema
 ## |-- encounters_reasoncode: long (nullable = false)
@@ -213,7 +218,6 @@ df_history = df_history.select([column for column in df_history.columns if colum
 ## |-- patient_race: string (nullable = true)
 ## |-- procedures_code: long (nullable = false)
 ## |-- procedures_base_cost: double (nullable = false)
-## |-- providers_speciality: string (nullable = true)
 ## |-- providers_state: string (nullable = true)
 ## |-- providers_utilization: long (nullable = true)
 ## |-- readmission: integer (nullable = false)
@@ -231,7 +235,7 @@ df_history.printSchema()
 
 from pyspark.ml.feature import OneHotEncoder, StringIndexer, VectorAssembler
 
-categoricalColumns = ['encounters_encounterclass', 'patient_gender', 'patient_marital', 'patient_ethnicity', 'patient_race', 'providers_speciality', 'encounters_reasoncode','encounters_code','procedures_code']
+categoricalColumns = ['encounters_encounterclass', 'patient_gender', 'patient_marital', 'patient_ethnicity', 'patient_race', 'encounters_reasoncode', 'encounters_code', 'procedures_code']
 stages = []
 for categoricalCol in categoricalColumns:
     stringIndexer = StringIndexer(inputCol = categoricalCol, outputCol = categoricalCol + 'Index')
