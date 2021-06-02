@@ -60,3 +60,13 @@ Since you will need HIPPA compliance for Healthcare data, the architecture in ba
 
 * [Amazon S3 Performance Optimization](https://docs.aws.amazon.com/AmazonS3/latest/dev/optimizing-performance.html)
 * [HIPPA on AWS Whitepaper](https://d1.awsstatic.com/whitepapers/compliance/AWS_HIPAA_Compliance_Whitepaper.pdf)
+
+
+## Security
+
+See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
+
+## License
+
+This library is licensed under the MIT-0 License. See the LICENSE file.
+
